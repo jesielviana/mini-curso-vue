@@ -1,43 +1,43 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import TemplatePadrao from "../templates/Padrao.vue"
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import TemplatePadrao from '../templates/Padrao.vue'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/login",
-    name: "login",
-    component: () => import("../views/Login.vue")
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/Login.vue')
   },
   {
-    path: "/home",
-    name: "home",
+    path: '/home',
+    name: 'home',
     component: TemplatePadrao,
     children: [
       {
-        path: "/cadastro-usuario",
-        name: "cadastro-usuario",
-        component: () => import("../views/CadastroUsuario.vue")
+        path: '/cadastro-usuario',
+        name: 'cadastro-usuario',
+        component: () => import('../views/CadastroUsuario.vue')
       },
       {
-        path: "/usuarios",
-        name: "usuarios",
-        component: () => import("../views/Usuarios.vue")
-      },
+        path: '/usuarios',
+        name: 'usuarios',
+        component: () => import('../views/Usuarios.vue')
+      }
     ]
   },
   {
-    path: "*",
-    name: "404",
-    component: () => import("../views/404.vue")
-  },
-];
+    path: '*',
+    name: '404',
+    component: () => import('../views/404.vue')
+  }
+]
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes
-});
+})
 
-export default router;
+export default router

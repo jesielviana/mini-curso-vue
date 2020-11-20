@@ -1,4 +1,4 @@
-# hello-world
+# Curdo de Vue.js com Firebase
 
 ## Project setup
 ```
@@ -20,5 +20,5 @@ yarn build
 yarn lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### JavaScript style guide, linter, and formatter
+[https://standardjs.com/](https://standardjs.com/)
