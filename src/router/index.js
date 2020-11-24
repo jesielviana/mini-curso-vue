@@ -11,7 +11,7 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: TemplatePadrao,
     children: [
@@ -24,6 +24,16 @@ const routes = [
         path: '/usuarios',
         name: 'usuarios',
         component: () => import('../views/Usuarios.vue')
+      },
+      {
+        path: '/posts',
+        name: 'posts',
+        component: () => import('../views/Posts.vue')
+      },
+      {
+        path: '/novo',
+        name: 'novo',
+        component: () => import('../views/PostForm.vue')
       }
     ]
   },
