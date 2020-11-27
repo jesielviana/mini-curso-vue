@@ -41,8 +41,9 @@ export default {
 
   methods: {
     salvar () {
-      this.$firebase.firestore().collection('posts').doc('ref').collection('novo').add(novodoc)
-      this.$firebase.firestore().collection('posts')
+      this.$firebase
+        .firestore()
+        .collection('posts')
         .add(this.post)
         .then(function (docRef) {
           console.log('Document written with ID: ', docRef.id)

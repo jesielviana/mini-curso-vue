@@ -39,7 +39,7 @@
               <em>User</em>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item to="/login">Sign Out</b-dropdown-item>
+            <b-dropdown-item @click="logout()">Sign Out</b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -53,3 +53,22 @@
     </footer>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    logout () {
+      this.$firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          console.log('Logout com sucesso!')
+          this.$router.push('login')
+        })
+        .catch(function (error) {
+          console.error(error)
+        })
+    }
+  }
+}
+</script>

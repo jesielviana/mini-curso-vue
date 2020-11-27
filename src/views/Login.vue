@@ -1,53 +1,70 @@
 <template>
-  <b-card class="col-md-4 ml-auto mr-auto mt-4 bg-warning">
-    <h2 class="text-center">LOGIN</h2>
-    <b-form @submit.prevent="login">
-      <b-form-group
-        label="Email:"
-        label-for="email"
-      >
-        <b-form-input
-          id="email"
-          type="email"
-          v-model="email"
-          required
-          placeholder="Informe seu email"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        label="Senha:"
-        label-for="senha"
-      >
-        <b-form-input
-          id="senha"
-          type="password"
-          required
-          v-model="senha"
-          placeholder="Informe sua senha"
-        ></b-form-input>
-      </b-form-group>
-      <b-button type="submit" class="float-right" variant="primary">Entrar</b-button>
-    </b-form>
-  </b-card>
+  <div class="login">
+    <b-button @click="login()" variant="secondary">
+      <img
+        class="img-fluid logo-google"
+        src="/img/google.png"
+        alt="Logo do Google"
+      />
+      Entrar com o Google
+    </b-button>
+  </div>
 </template>
 <script>
+import googleProvider from '../firebase/providers'
+
 export default {
   name: 'Login',
-  data() {
+  data () {
     return {
       email: '',
-      senha: '',
+      senha: ''
     }
   },
   methods: {
-    login(){
-      console.log('Email: ', this.email)
-      console.log('Senha: ', this.senha)
-      this.$router.push('usuarios');
+    login () {
+      this.$firebase
+        .auth()
+        .signInWithPopup(googleProvider)
+        .then(async result => {
+          const usuario = {}
+          usuario.photoURL = result.user.photoURL
+          usuario.email = result.user.email
+          usuario.displayName = result.user.displayName
+          await this.salvarUsuario(usuario, result.user.uid)
+        })
+        .catch(function (error) {
+          console.error(error)
+        })
+    },
+
+    async salvarUsuario (usuario, uid) {
+      console.log('usuario: ', usuario, uid)
+      this.$firebase
+        .firestore()
+        .collection('usuarios')
+        .doc(uid)
+        .set(usuario)
+        .then(docRef => {
+          console.log('usuario salvo com sucesso: ', docRef.id)
+        })
+        .catch(function (error) {
+          console.error('Error adding document: ', error)
+        })
     }
-  },
+  }
 }
 </script>
 <style scoped>
+.login {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo-google {
+  width: 30px;
+  height: 30px;
+}
 </style>
