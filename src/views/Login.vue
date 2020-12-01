@@ -27,11 +27,17 @@ export default {
         .auth()
         .signInWithPopup(googleProvider)
         .then(async result => {
+          localStorage.setItem('username', result.user.displayName)
           const usuario = {}
           usuario.photoURL = result.user.photoURL
           usuario.email = result.user.email
           usuario.displayName = result.user.displayName
-          await this.salvarUsuario(usuario, result.user.uid)
+          const usuarioExistente = await this.usuarioExistente(result.user.uid)
+          console.log('usuarioExistente', usuarioExistente)
+          if (!usuarioExistente) {
+            console.log('add new user ')
+            await this.salvarUsuario(usuario, result.user.uid)
+          }
         })
         .catch(function (error) {
           console.error(error)
@@ -51,6 +57,15 @@ export default {
         .catch(function (error) {
           console.error('Error adding document: ', error)
         })
+    },
+
+    async usuarioExistente (uid) {
+      const docRef = this.$firebase
+        .firestore()
+        .collection('usuarios')
+        .doc(uid)
+      const doc = await docRef.get()
+      return doc.exists
     }
   }
 }

@@ -1,19 +1,26 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import TemplatePadrao from '../templates/Padrao.vue'
+import firebase from 'firebase/app'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: () => import('../views/Home.vue')
+  },
   {
     path: '/login',
     name: 'login',
     component: () => import('../views/Login.vue')
   },
   {
-    path: '/',
-    name: 'home',
+    path: '/dashboard',
+    name: 'dashboard',
     component: TemplatePadrao,
+    redirect: 'posts',
     children: [
       {
         path: '/cadastro-usuario',
@@ -49,5 +56,27 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  console.log('from: ', from, ' to: ', to)
+  const HOME = '/'
+  const LOGIN = '/login'
+  const PAGINA_INICAL_AUTENTICADO = '/dashboard'
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      if (to.path === LOGIN) {
+        next({ path: PAGINA_INICAL_AUTENTICADO })
+      }
+      next()
+    } else {
+      if (to.path !== HOME && to.path !== LOGIN) {
+        next({ path: LOGIN })
+      }
+    }
+  })
+  next()
+})
+
+// https://twitter.com/brunocartaxo/status/1333380254384095232
 
 export default router

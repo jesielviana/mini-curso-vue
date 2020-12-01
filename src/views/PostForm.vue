@@ -34,13 +34,16 @@ export default {
       post: {
         titulo: '',
         texto: '',
-        data: new Date()
+        data: new Date(),
+        autor: ''
       }
     }
   },
 
   methods: {
     salvar () {
+      this.post.autor = this.$firebase.auth().currentUser.uid
+      console.log('this.post', this.post)
       this.$firebase
         .firestore()
         .collection('posts')

@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand href="#">NavBar</b-navbar-brand>
+      <b-navbar-brand href="/">NavBar</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -36,7 +36,7 @@
           <b-nav-item-dropdown right>
             <!-- Using 'button-content' slot -->
             <template #button-content>
-              <em>User</em>
+              <em>{{ username }}</em>
             </template>
             <b-dropdown-item href="#">Profile</b-dropdown-item>
             <b-dropdown-item @click="logout()">Sign Out</b-dropdown-item>
@@ -49,19 +49,25 @@
     </div>
     <footer class="text-center">
       Curso de Web-Dev <br />
-      by @jesielvian
+      by @jesielviana
     </footer>
   </div>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      username: localStorage.getItem('username')
+    }
+  },
   methods: {
     logout () {
       this.$firebase
         .auth()
         .signOut()
         .then(() => {
+          localStorage.removeItem('username')
           console.log('Logout com sucesso!')
           this.$router.push('login')
         })
