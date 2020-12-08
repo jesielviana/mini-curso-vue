@@ -1,4 +1,6 @@
-# Curdo de Vue.js com Firebase
+# Curso de Vue.js com Firebase
+
+[https://aula-ifpi-curso-vuejs-firebase.web.app/](https://aula-ifpi-curso-vuejs-firebase.web.app/)
 
 ## Project setup
 ```
