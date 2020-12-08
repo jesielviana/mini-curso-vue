@@ -1,6 +1,8 @@
 <template>
   <div class="card-home">
-    <h1 class="text-center">Curso de Vue.js com Firebase</h1>
+    <h1 class="text-center">
+      Curso de Vue.js com Firebase com Deploy Automático
+    </h1>
     <a href="/login" class="btn btn-primary">Login</a>
   </div>
 </template>
